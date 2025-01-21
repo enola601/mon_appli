@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique de Virements</title>
+    <link rel="stylesheet" href="css/histo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <h1>Historique Bancaire</h1>
+    </header>
+
+    <button class="logout-button" onclick="logout()">Déconnexion</button>
+
+    <div class="historique-container">
+        <h1>Historique des Virements</h1>
+
+        <!-- Virements à venir pré-inscrits (exemples) -->
+        <div class="virement">
+            <div class="icon-background">
+                <img src="img/credit.png" alt="Icône de paiement" class="payment-icon">
+            </div>
+            <div class="virement-details">
+                <div class="nom-prenom">
+                    <p>Virement reçu de :</p>
+                    <span style="font-size: 13px ;"   ><strong >Nom :</strong> GIROURD</span> <br>
+                    <span style="font-size: 13px ;"   ><strong>Prénom :</strong> STEPHANIE</span>
+                </div>
+                <div class="rib">
+                    <span style="font-size: 13px ;"   ><strong>IBAN :</strong> 8547 456***</span>
+                </div>
+                <div class="date">
+                    <span style="font-size: 13px ;"   ><strong>Date :</strong> 10/12/2024</span>
+                </div>
+            </div>
+            <div class="montant-paiement">
+                <span class="paiement-label" style="color:green; font-size: 13px ;" ><i class="fa-solid fa-check"></i>Effectué</span>
+                <span class="montant-value2">+ 300.25 €</span>
+            </div>
+        </div>
+
+        <div class="virement">
+            <div class="icon-background">
+                <img src="img/credit.png" alt="Icône de paiement" class="payment-icon">
+            </div>
+            <div class="virement-details">
+                <div class="nom-prenom">
+                    <p>Virement reçu de :</p>
+                   <span style="font-size: 13px ;"   ><strong>Nom :</strong> ROBERTO</span> <br>
+                   <span style="font-size: 13px ;"   ><strong>Prénom :</strong> MELINA </span>
+                </div>
+                <div class="rib">
+                   <span style="font-size: 13px ;"   ><strong>IBAN :</strong> 7854 624***</span>
+                </div>
+                <div class="date">
+                    <span style="font-size: 13px ;"   ><strong>Date :</strong> 16/11/2024</span>
+                </div>
+            </div>
+            <div class="montant-paiement">
+                <span class="paiement-label" style="color:green; font-size: 13px ;" ><i class="fa-solid fa-check"></i>Effectué</span>
+                <span class="montant-value2">+ 500.43 €</span>
+            </div>
+        </div>
+    </div>
+
+   <div class="navbar">
+        <a href="Solde.html" class="nav-item"> 
+            <i class="fas fa-wallet"></i> Solde
+        </a>
+        <a href="#" class="nav-item"> 
+            <i class="fas fa-history"></i> Historique
+        </a>
+        <a href="virement.html" class="nav-item"> 
+            <i class="fas fa-exchange-alt"></i> Virement
+        </a>
+        <a href="Rib.html" class="nav-item"> 
+            <i class="fas fa-file-invoice"></i> Rib
+        </a>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 Banque - Tous droits réservés.</p>
+    </footer>
+
+    <script>
+          function elements(post) {
+                // Récupération du conteneur principal où le virement sera ajouté
+const conteneur = document.querySelector(".historique-container"); // Remplacez avec l'élément cible
+
+// Création de la structure du virement
+const virementDiv = document.createElement("div");
+virementDiv.classList.add("virement");
+
+// Ajout de l'icône
+const iconBackgroundDiv = document.createElement("div");
+iconBackgroundDiv.classList.add("icon-background");
+const img = document.createElement("img");
+img.src = "img/credit.png"; // Chemin de l'image
+img.alt = "Icône de paiement";
+img.classList.add("payment-icon");
+iconBackgroundDiv.appendChild(img);
+virementDiv.appendChild(iconBackgroundDiv);
+
+// Ajout des détails du virement
+const virementDetailsDiv = document.createElement("div");
+virementDetailsDiv.classList.add("virement-details");
+
+const nomPrenomDiv = document.createElement("div");
+nomPrenomDiv.classList.add("nom-prenom");
+nomPrenomDiv.innerHTML = `
+    <p>Virement reçu de :</p>
+    <span style="font-size: 13px;"><strong>Nom :</strong> ${post.nom} </span><br>
+    <span style="font-size: 13px;"><strong>Prénom :</strong>${post.prenom} </span>
+`;
+
+const ribDiv = document.createElement("div");
+ribDiv.classList.add("rib");
+ribDiv.innerHTML = `
+    <span style="font-size: 13px;"><strong>IBAN :</strong>${post.iban} </span>
+`;
+
+const dateDiv = document.createElement("div");
+dateDiv.classList.add("date");
+dateDiv.innerHTML = `
+    <span style="font-size: 13px;"><strong>Date :</strong>${post.date} </span>
+`;
+
+virementDetailsDiv.appendChild(nomPrenomDiv);
+virementDetailsDiv.appendChild(ribDiv);
+virementDetailsDiv.appendChild(dateDiv);
+virementDiv.appendChild(virementDetailsDiv);
+
+// Ajout du montant de paiement
+const montantPaiementDiv = document.createElement("div");
+montantPaiementDiv.classList.add("montant-paiement");
+
+// Ajouter un statut dynamique
+const statutClass = post.statut === "Refusé" ? "echec" : ""; // Si le statut est "Refusé", on ajoute la classe "echec"
+
+
+
+montantPaiementDiv.innerHTML = `
+    <span class="${statutClass}">
+        ${post.statut}
+    </span>
+    <span class="montant-value1">- ${post.montant} €</span>
+`;
+
+// Si le statut est "Refusé", ajoutez l'icône d'échec
+if (statutClass === "echec") {
+    montantPaiementDiv.querySelector("span.echec").classList.add("montant-value1");
+    montantPaiementDiv.querySelector("span.echec").innerHTML = '<i class="fa-solid fa-times-circle"></i> ' + post.statut; // Ajoute l'icône dans le texte du statut
+}
+if (statutClass === "En attente") {
+    montantPaiementDiv.querySelector("span.attente").classList.add("montant-value2");
+    montantPaiementDiv.querySelector("span.attente").innerHTML = '<i class="fa-solid fa-hourglass-half"></i> ' + post.statut; // Ajoute l'icône de sablier
+}
+virementDiv.appendChild(montantPaiementDiv);
+
+// Ajout de tout dans le conteneur principal
+conteneur.appendChild(virementDiv);
+
+            }
+
+       async function recupe(params) {
+        const response = await fetch("/totalvirements",{
+            method:"GET",
+            headers:{
+                Accept:"application/json",
+                "Content-Type":"application/json",
+            },
+        })
+
+        const data = await response.json()
+        console.log(data.table);
+        const docs = data.table
+        for(let doc of docs){
+            console.log(doc);
+            elements(doc)
+            
+
+            
+        }
+        
+        
+       }
+       window.addEventListener("load", recupe)
+
+
+        let timeout;
+        function resetTimer() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                alert("Vous avez été déconnecté en raison d'une inactivité.");
+                window.location.href = 'index.html';
+            }, 600000); // 10 minutes
+        }
+    
+        // Écouteurs d'événements
+        document.addEventListener('mousemove', resetTimer);
+        document.addEventListener('keypress', resetTimer);
+        document.addEventListener('touchstart', resetTimer);
+        document.addEventListener('touchmove', resetTimer);
+        document.addEventListener('click', resetTimer);
+        document.addEventListener('scroll', resetTimer);
+
+    
+        
+    </script>
+    
+</body>
+</html>

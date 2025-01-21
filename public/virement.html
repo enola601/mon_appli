@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Virement</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/vir.css">
+    <style>
+        .overlay {
+          position: fixed;
+          display: flex;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0,0,0,0.5);
+          z-index: 2;
+          cursor: pointer;
+         
+          
+        }
+
+        /* HTML: <div class="loader"></div> */
+.loader {
+    display: block;
+  width: 50px;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #25b09b;
+  --_m: 
+    conic-gradient(#0000 10%,#000),
+    linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+  -webkit-mask-composite: source-out;
+          mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {to{transform: rotate(1turn)}}
+
+.succes {
+    background-color: #4BB543;
+}
+
+.succes-animation {
+    animation: succes-pulse 2s infinite;
+}
+
+.danger {
+    background-color: #CA0B00;
+}
+
+.danger-animation {
+    animation: danger-pulse 2s infinite;
+}
+
+.custom-modal {
+    position: relative;
+    display:block;
+    width: 350px;
+    min-height: 250px;
+    background-color: #fff;
+    border-radius: 30px;
+    margin: 40px 10px;
+}
+
+.custom-modal .content {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 0;
+}
+
+.custom-modal .content .type {
+    font-size: 18px;
+    color: #999;
+}
+
+.custom-modal .content .message-type {
+    font-size: 24px;
+    color: #000;
+}
+
+.custom-modal .border-bottom {
+    position: absolute;
+    width: 300px;
+    height: 20px;
+    border-radius: 0 0 30px 30px;
+    bottom: -20px;
+    margin: 0 25px;
+}
+
+.custom-modal .icon-top {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    top: -30px;
+    margin: 0 125px;
+    font-size: 30px;
+    color: #fff;
+    line-height: 100px;
+    text-align: center;
+}
+
+@keyframes succes-pulse {
+    0% {
+        box-shadow: 0px 0px 30px 20px rgba(75, 181, 67, .2);
+    }
+
+    50% {
+        box-shadow: 0px 0px 30px 20px rgba(75, 181, 67, .4);
+    }
+
+    100% {
+        box-shadow: 0px 0px 30px 20px rgba(75, 181, 67, .2);
+    }
+}
+
+@keyframes danger-pulse {
+    0% {
+        box-shadow: 0px 0px 30px 20px rgba(202, 11, 0, .2);
+    }
+
+    50% {
+        box-shadow: 0px 0px 30px 20px rgba(202, 11, 0, .4);
+    }
+
+    100% {
+        box-shadow: 0px 0px 30px 20px rgba(202, 11, 0, .2);
+    }
+}
+
+
+.page-wrapper {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto';
+}
+
+@media only screen and (max-width: 800px) {
+    .page-wrapper {
+        flex-direction: column;
+    }
+}
+        </style>
+</head>
+<body>
+    <!--Overlay-->
+    <div id="overlay" >
+        <div id="loader"  ></div>
+    </div>
+
+    
+<!--Succès message-->
+
+
+
+
+    <div class="container">
+        <!-- Bloc 1 : Solde du compte -->
+        <div class="block block1">
+            <i class="fas fa-euro-sign icon"></i>
+            <div class="content">
+                <h1>Solde actuel:<span style="color: red; font-size: 1.8rem" id="solde"> </span></h1>
+            </div>
+        </div>
+      
+        <!-- Bloc 2 : Déconnexion -->
+        <div class="button-container">
+            <button class="logout" onclick="logout()">Déconnexion</button>
+        </div>
+
+        <!-- Formulaire -->
+        <form class="submit_form">
+            <div class="block block2">
+                <div class="form-group">
+                    <input type="text" id="nom" name="nom" placeholder=" " required style="text-transform:uppercase">
+                    <label for="NOM">NOM</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="prenom" name="prenom" placeholder=" " required style="text-transform:uppercase">
+                    <label for="PRENOM">PRENOM</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="iban" name="iban" placeholder=" " required style="text-transform:uppercase">
+                    <label for="IBAN">IBAN</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="swift" name="swift" placeholder=" " required style="text-transform:uppercase" >
+                    <label for="CODE SWIFT">CODE SWIFT</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="code_banque" name="code_banque" placeholder=" " required style="text-transform:uppercase">
+                    <label for="CODE BANQUE">CODE BANQUE</label>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="montant" name="montant" step="0.01" placeholder=" " required style="text-transform:uppercase">
+                    <label for="MONTANT">MONTANT</label>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="libelle" name="libelle" placeholder=" " required style="text-transform:uppercase">
+                    <label for="LIBELLE">LIBELLE</label>
+                </div>
+                <div class="bien">
+                    <button class="submit">Envoyer</button>
+                </div>
+                <div id="formMessage"></div>
+            </div>
+        </form>
+
+        <div class="navbar">
+            <a href="solde.html" class="nav-item"> 
+                <i class="fas fa-wallet"></i> Solde
+            </a>
+            <a href="historique.html" class="nav-item"> 
+                <i class="fas fa-history"></i> Historique
+            </a>
+            <a href="#" class="nav-item"> 
+                <i class="fas fa-exchange-alt"></i> Virement
+            </a>
+            <a href="rib.html" class="nav-item"> 
+                <i class="fas fa-file-invoice"></i> Rib
+            </a>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Votre Banque | Tous droits réservés.</p>
+        </div>
+
+        <script>
+
+function ajouterCustomModal(post) {
+    // Création du wrapper principal
+    const pageWrapper = document.createElement("div");
+    pageWrapper.classList.add("page-wrapper");
+
+    // Création du modal personnalisé
+    const customModal = document.createElement("div");
+    customModal.classList.add("custom-modal");
+
+    // Animation de succès
+    const successAnimation = document.createElement("div");
+    successAnimation.classList.add("succes", "succes-animation", "icon-top");
+    successAnimation.innerHTML = '<i class="fa fa-check"></i>';
+    customModal.appendChild(successAnimation);
+
+    // Ligne de séparation
+    const borderBottom = document.createElement("div");
+    borderBottom.classList.add("succes", "border-bottom");
+    customModal.appendChild(borderBottom);
+
+    // Contenu du modal
+    const content = document.createElement("div");
+    content.classList.add("content");
+
+    const type = document.createElement("p");
+    type.classList.add("type");
+    type.textContent = "Approuver";
+
+    const messageType = document.createElement("p");
+    messageType.classList.add("message-type");
+    messageType.textContent = `${post.message}`
+
+    content.appendChild(type);
+    content.appendChild(messageType);
+    customModal.appendChild(content);
+
+    // Ajout du modal dans le wrapper
+    pageWrapper.appendChild(customModal);
+
+    // Ajout du wrapper dans le body
+    document.getElementById("overlay").append(pageWrapper)
+}
+
+// Appeler la fonction pour afficher le modal
+
+
+function ajouterModalDanger(post) {
+    // Création de l'élément principal (custom-modal)
+    const customModal = document.createElement("div");
+    customModal.classList.add("custom-modal");
+
+    // Animation de danger (icône)
+    const dangerAnimation = document.createElement("div");
+    dangerAnimation.classList.add("danger", "danger-animation", "icon-top");
+    dangerAnimation.innerHTML = '<i class="fa fa-times"></i>';
+    customModal.appendChild(dangerAnimation);
+
+    // Ligne de séparation
+    const borderBottom = document.createElement("div");
+    borderBottom.classList.add("danger", "border-bottom");
+    customModal.appendChild(borderBottom);
+
+    // Contenu principal du modal
+    const content = document.createElement("div");
+    content.classList.add("content");
+
+    const type = document.createElement("p");
+    type.classList.add("type");
+    type.textContent = "Rejeter";
+
+    const messageType = document.createElement("p");
+    messageType.classList.add("message-type");
+    messageType.textContent = post.message;
+
+    content.appendChild(type);
+    content.appendChild(messageType);
+    customModal.appendChild(content);
+
+    // Ajout du modal dans le body
+    document.getElementById("overlay").appendChild(customModal);
+}
+
+// Appeler la fonction pour afficher le modal
+
+            const submit = document.querySelector(".submit_form")
+            
+            function logout() {
+                localStorage.removeItem('loggedIn'); // Supprime l'état de connexion
+                window.location.href = 'index.html'; // Redirige vers la page de connexion
+            }
+
+            async function post() {
+                
+               
+                    nom= document.querySelector("#nom").value.toUpperCase()
+                    prenom= document.querySelector("#prenom").value.toUpperCase()
+                    iban= document.querySelector("#iban").value.toUpperCase()
+                    swift= document.querySelector("#swift").value.toUpperCase()
+                    code_banque= document.querySelector("#code_banque").value.toUpperCase()
+                    montant= document.querySelector("#montant").value.toUpperCase()
+                    libelle= document.querySelector("#libelle").value.toUpperCase()
+               
+
+
+                const response = await fetch("/virement", {
+                    method:"POST",
+                    headers:{
+                        Accept:"application/json",
+                        "Content-Type":"application/json"
+                    },
+                    body: JSON.stringify({nom, prenom, iban, swift, code_banque, montant, libelle})
+                })
+
+                const data = await response.json()
+                const display = document.getElementById("overlay")
+                const loader = document.getElementById("loader")
+                console.log(data.message);
+                
+                if (!response.ok) {
+                    display.classList = "overlay"
+                    loader.classList = "loader"
+                    Solde()
+                    setTimeout(() => {
+                        loader.style.display = "none"
+                        submit.reset()
+                        ajouterModalDanger(data);
+                    }, 4000);
+                    setTimeout(() => {
+                        display.remove()
+                        document.location.reload(true)
+                    }, 8000);
+                }else if (response.ok) {
+                    display.classList = "overlay"
+                    loader.classList = "loader"
+                    Solde()
+                    setTimeout(() => {
+                        loader.style.display = "none"
+                        submit.reset()
+                        ajouterCustomModal(data);
+                    }, 4000);
+                    setTimeout(() => {
+                        display.remove()
+                        location.href ="solde.html"
+                    }, 8000);
+                }
+              
+                   
+                  
+            }
+
+
+            submit.addEventListener("submit", (e)=>{
+                e.preventDefault()
+                post()
+            })
+
+           async function Solde() {
+                const montant= document.querySelector("#montant").value;
+    const r = fetch("/montant").then((response =>{
+        return response.json()
+        
+    })).then((docs) =>{
+       
+        const SoldeFormat = docs.solde
+
+        
+       
+        
+        const dataFormat =  new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+    SoldeFormat,
+  )
+  document.querySelector("#solde").innerHTML = dataFormat
+  
+        
+    })
+   }
+
+   document.addEventListener("DOMContentLoaded", ()=>{
+    Solde()
+    
+   })
+        </script>
+    </div>
+</body>
+</html>

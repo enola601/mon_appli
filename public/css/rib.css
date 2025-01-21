@@ -1,0 +1,210 @@
+ /* styles.css */
+
+ body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Nouveau style pour le bouton de déconnexion */
+.logout-btn {
+    position: fixed; /* Bouton fixé en haut à droite */
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    z-index: 1000; /* Assurez-vous qu'il reste au-dessus du contenu */
+    display: flex;
+    align-items: center; /* Aligner la flèche et le texte verticalement */
+    gap: 10px; /* Espacement entre le texte et l'icône */
+}
+
+.logout-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Styles existants */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.header-logo {
+    width: 50px;
+    height: auto;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.rib-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.rib-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.rib-card:hover {
+    background-color: #f0f8ff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.rib-card h2 {
+    margin-top: 0;
+    color: #007bff;
+    font-size: 1.5rem;
+}
+
+.rib-details p {
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.rib-details strong {
+    color: #333;
+}
+
+.bank-info {
+    background-color: #e0f7fa;
+    border-left: 5px solid #007bff;
+}
+
+footer {
+    text-align: center;
+    border-top: 2px solid #ddd;
+    padding: 20px 0;
+    margin-top: 40px;
+    background: #e0f7fa;
+    color: #333;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .header-logo {
+        width: 40px;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .rib-card {
+        padding: 15px;
+    }
+
+    .rib-card h2 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-logo {
+        width: 35px;
+    }
+
+    header h1 {
+        font-size: 1.2rem;
+    }
+
+    .rib-card {
+        padding: 10px;
+    }
+
+    .rib-card h2 {
+        font-size: 1rem;
+    }
+
+    .rib-details p {
+        font-size: 0.9rem;
+    }
+}
+
+.content {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px;
+    z-index: 1000;
+    max-width: 90%;
+}
+
+.nav-item {
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease, background-color 0.3s ease;
+    flex: 1;
+    justify-content: center;
+    min-width: 80px;
+}
+
+.nav-item.active {
+    transform: translateY(-15px);
+    color: #007bff;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border: 1px solid #007bff;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        bottom: 15px;
+        padding: 5px;
+    }
+
+    .nav-item {
+        min-width: 60px;
+    }
+
+    .nav-item.active {
+        transform: translateY(-20px);
+    }
+}

@@ -1,0 +1,195 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    background-color: #e0f7fa;
+    color: #333;
+    text-align: center;
+    padding: 10px;
+}
+
+.logout-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+.historique-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.virement {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9fafb;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.icon-background {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payment-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.virement-details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 80px;
+}
+
+.montant-paiement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.paiement-label {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.montant-value1 {
+    font-size: 13px;
+    color: red;
+    font-weight: bold;
+}
+ .montant-value2 {
+    font-size: 13px;
+    color:rgb(52, 20, 196);
+    font-weight: bold;
+}
+
+
+.footer {
+    text-align: center;
+    border-top: 2px solid #ddd;
+    padding: 20px 10px;
+    background: #e0f7fa;
+    color: #333;
+}
+
+   body {
+margin: 0;
+font-family: Arial, sans-serif;
+}
+
+.content {
+padding: 20px; /* Espacement autour du contenu */
+padding-bottom: 80px; /* Ajout d'un padding pour éviter que le contenu soit caché sous la barre de navigation */
+}
+
+.navbar {
+position: fixed; /* Rendre la barre de navigation fixe */
+bottom: 0; /* Positionner en bas de la page */
+left: 50%;
+transform: translateX(-50%);
+background-color: white;
+border-radius: 10px;
+box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+display: flex;
+gap: 10px; /* Espacement entre les éléments */
+padding: 10px 20px; /* Padding pour le conteneur */
+z-index: 1000; /* S'assurer que la barre est au-dessus des autres éléments */
+max-width: 90%; /* Limiter la largeur pour les petits écrans */
+}
+
+.nav-item {
+padding: 10px;
+text-decoration: none;
+color: black;
+display: flex;
+align-items: center;
+transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease, background-color 0.3s ease;
+flex: 1; /* Équilibre la largeur des éléments */
+justify-content: center; /* Centre le contenu */
+min-width: 80px; /* Largeur minimale pour chaque élément */
+}
+
+/* Animation for the clicked item */
+.nav-item.active {
+transform: translateY(-15px); /* Décale un peu plus vers le haut */
+color: #007bff;
+background-color: white; /* Fond blanc lorsque l'élément est actif */
+box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+border: 1px solid #007bff;
+border-radius: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+.navbar {
+bottom: 15px; /* Ajuster la position pour éviter la coupure */
+padding: 5px;
+}
+
+.nav-item {
+min-width: 60px; /* Largeur minimale pour les petits écrans */
+}
+
+.nav-item.active {
+transform: translateY(-20px); /* Décalage plus important sur petits écrans */
+}
+}
+
+/* Couleurs pour le statut */
+.statut-attente {
+    color: blue;
+    font-size: 13px
+    
+}
+
+.statut-refuse {
+    color: #721c24;
+    font-size: 13px
+}

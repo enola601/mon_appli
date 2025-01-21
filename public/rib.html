@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Informations RIB</title>
+    <link rel="stylesheet" href="css/rib.css">
+    <style>
+       
+    </style>
+</head>
+<body>
+    <header></header>
+
+    <main>
+        <section class="rib-container">
+            <div class="rib-card bank-info">
+                <h2>Informations de Votre Banque</h2>
+                <div class="rib-details">
+                    <p><strong>Nom de la Banque:</strong>  Monabanq </p>
+                    <p><strong>Adresse:</strong> France</p>
+                    <p><strong>Téléphone:</strong> 0577294111</p>
+                    <p><strong>Email:</strong> info@service.fr</p>
+                </div>
+            </div>
+
+            <div class="rib-card national">
+                <h2>Informations RIB Nationales</h2>
+                <div class="rib-details">
+                    <p><strong>Nom de la Banque:</strong> Monabanq </p>
+                    <p><strong>Nom du Titulaire:</strong> Chambelle Véronique</p>
+                    <p><strong>Domiciliation:</strong> Villeneuve-d'Ascq Drapeau </p>
+                    <p><strong>Code Guichet:</strong> 67890</p>
+                    <p><strong>Numéro de Compte:</strong> 84838605965</p>
+                    <p><strong>Clé RIB:</strong> 97</p>
+                </div>
+            </div>
+
+            <div class="rib-card international">
+                <h2>Informations RIB Internationales</h2>
+                <div class="rib-details">
+                    <p><strong>IBAN:</strong> FR76 9657 5631 9084 8386 0596 534</p>
+                    <p><strong>Bic:</strong> MONFRPP866</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bouton de déconnexion en haut à droite avec flèche -->
+    <a href="Carte.html" class="logout-btn">
+        Carte <i class="fas fa-arrow-right"></i>
+    </a>
+
+    <div class="navbar">
+        <a href="Solde.html" class="nav-item">
+            <i class="fas fa-wallet"></i> Solde
+        </a>
+        <a href="Historique.html" class="nav-item">
+            <i class="fas fa-history"></i> Historique
+        </a>
+        <a href="virement.html" class="nav-item">
+            <i class="fas fa-exchange-alt"></i> Virement
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-credit-card"></i>Rib
+        </a>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Votre Banque. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                });
+            });
+        });
+        let timeout;
+
+function resetTimer() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        alert("Vous avez été déconnecté en raison d'une inactivité.");
+        window.location.href = 'index.html'; // Remplace par ta page de déconnexion
+    }, 600000); // 600000 ms = 10 minutes
+}
+
+// Ajoute un écouteur d'événements global
+document.addEventListener('mousemove', resetTimer);
+document.addEventListener('keypress', resetTimer);
+document.addEventListener('touchstart', resetTimer);
+document.addEventListener('touchmove', resetTimer);
+document.addEventListener('click', resetTimer);
+document.addEventListener('scroll', resetTimer);
+
+// Initialiser le timer
+window.onload = resetTimer;
+    </script>
+</body>
+</html>

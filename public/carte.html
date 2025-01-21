@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte Bancaire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="" href="css/carte.css">
+    <style>
+       
+    </style>
+</head>
+<body>
+
+    <div class="header">CARTE ET FONCTION DE LA CARTE</div>
+    <button class="logout-button" onclick="window.location.href='Rib.html'">
+        <i class="fas fa-arrow-left" style="margin-right: 8px;"></i>Retour
+    </button>
+
+    <div class="carte-container">
+        <div class="carte" onclick="this.classList.toggle('flipped')">
+            <div class="puce">
+                <img src="img/chip.png" alt="Puce électronique">
+            </div>
+            <div class="numero">**** **** **** 8912</div>
+            <i class="fas fa-wifi wifi"></i> 
+            <div class="cvv">CVV ***</div>
+            <div class="details">
+                <div class="titulaire">Titulaire: ****</div>
+                <div class="expiration">
+                    <div>ESPIRE LE</div>
+                    <div>**/**</div>
+                </div>
+            </div>
+            <div class="logo">VISA</div>
+        </div>
+        <div class="carte-back">
+            <div class="bande-noire"></div>
+            <div class="signature-strip">SIGNATURE</div>
+            <div class="info">Numéro de Carte : 5244 2150 8252 6420</div>
+            <div class="info">Nom du Titulaire : Joe Alison</div>
+            <div class="info">Date d'Émission : 01/22</div>
+            <div class="info">Date d'Expiration : 10/25</div>
+            <div class="info">Émetteur : Banque XYZ</div>
+        </div>
+    </div>
+
+    <div class="toggle-container">
+        <div class="toggle" id="toggleSwitch"></div>
+        <span class="label" id="toggleLabel">Verrouillé la carte<br>Bloquer de façon temporaire</span>
+        <i class="fas fa-credit-card" style="font-size: 1.5em;"></i>
+    </div>
+
+    <div class="toggle-container">
+        <div class="toggle" id="applePayToggle"></div>
+        <span class="label" id="applePayLabel">Activé Apple Pay<br>Autoriser liaisons à Apple Pay</span>
+        <i class="fab fa-apple" style="font-size: 1.5em;"></i>
+    </div>
+
+    <div class="toggle-container">
+        <div class="toggle" id="nfcToggle"></div>
+        <span class="label" id="nfcLabel">Activer NFC<br>Activer paiement sans contact</span>
+        <i class="fas fa-signal" style="font-size: 1.5em;"></i>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Votre Banque| Tous droits réservés.</p>
+    </div>
+
+    <script>
+        const cardDetails = {
+            cardNumber: "4157 1245 3527 8912",
+            cvv: "CVV 605",
+            cardHolder: "Chambelle Véronique",
+            expiration: "10/26"
+        };
+
+        function updateCardDisplay(isUnlocked) {
+            const numeroElement = document.querySelector('.numero');
+            const cvvElement = document.querySelector('.cvv');
+            const titulaireElement = document.querySelector('.details .titulaire');
+            const expirationElement = document.querySelector('.expiration div:nth-child(2)');
+
+            if (isUnlocked) {
+                numeroElement.innerHTML = cardDetails.cardNumber; // Affiche le numéro de carte
+                cvvElement.innerHTML = cardDetails.cvv; // Affiche le CVV
+                titulaireElement.innerHTML = cardDetails.cardHolder; // Affiche le titulaire
+                expirationElement.innerHTML = cardDetails.expiration; // Affiche la date d'expiration
+            } else {
+                numeroElement.innerHTML = "**** **** **** 8912"; // Masque le numéro de carte
+                cvvElement.innerHTML = "CVV ***"; // Masque le CVV
+                titulaireElement.innerHTML = "Titulaire: ****"; // Masque le titulaire
+                expirationElement.innerHTML = "**/**"; // Masque la date d'expiration
+            }
+        }
+
+        function toggleFeature(toggleId, labelId, activeText, inactiveText) {
+            const toggle = document.getElementById(toggleId);
+            const label = document.getElementById(labelId);
+
+            // Chargement de l'état à partir du localStorage
+            const storedState = localStorage.getItem(toggleId);
+            if (storedState === 'true') {
+                toggle.classList.add('active');
+                label.innerHTML = activeText;
+            } else {
+                label.innerHTML = inactiveText;
+            }
+
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('active');
+                const isActive = toggle.classList.contains('active');
+                label.innerHTML = isActive ? activeText : inactiveText;
+
+                // Sauvegarde de l'état dans le localStorage
+                localStorage.setItem(toggleId, isActive);
+                
+                // Mise à jour de l'affichage de la carte
+                updateCardDisplay(isActive);
+            });
+        }
+
+        toggleFeature('toggleSwitch', 'toggleLabel', 'Déverrouillé la carte<br>Bloquer de façon temporaire', 'Verrouillé la carte<br>Bloquer de façon temporaire');
+        toggleFeature('applePayToggle', 'applePayLabel', 'Désactivé Apple Pay<br>Autoriser liaisons à Apple Pay', 'Activé Apple Pay<br>Autoriser liaisons à Apple Pay');
+        toggleFeature('nfcToggle', 'nfcLabel', 'Désactiver NFC<br>Activer paiement sans contact', 'Activer NFC<br>Activer paiement sans contact');
+
+        // Initialisation de l'affichage
+        updateCardDisplay(document.getElementById('toggleSwitch').classList.contains('active'));
+        let timeout;
+
+function resetTimer() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        alert("Vous avez été déconnecté en raison d'une inactivité.");
+        window.location.href = 'index.html'; // Remplace par ta page de déconnexion
+    }, 600000); // 600000 ms = 10 minutes
+}
+
+// Ajoute un écouteur d'événements global
+document.addEventListener('mousemove', resetTimer);
+document.addEventListener('keypress', resetTimer);
+document.addEventListener('touchstart', resetTimer);
+document.addEventListener('touchmove', resetTimer);
+document.addEventListener('click', resetTimer);
+document.addEventListener('scroll', resetTimer);
+
+// Initialiser le timer
+window.onload = resetTimer;
+    </script>
+
+</body>
+</html>

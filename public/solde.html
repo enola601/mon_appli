@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Client - Compte Bancaire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/solde.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Logout Button -->
+        <div class="header">
+            <h1>Bienvenue, <span id="userName">Chambelle Véronique</span></h1>
+            <button class="logout" onclick="logout()">Déconnexion</button>
+        </div>
+        
+        <!-- Account Information -->
+        <div class="account-info">
+            <div class="balance">
+                <h2>Solde du compte</h2>
+                <h1>Solde actuel: <span id="solde" style="color: red"></span></h1>
+                <p>Statut du compte: <span style="color: limegreen">Votre compte est actif</span></p>
+                <p><ion-icon name="location-sharp"></ion-icon> Villeneuve-d'Ascq - France</p>
+                <p>Dernière connexion: <span id="date"></span></p>
+            </div>
+            <div class="details">
+                <h3>Informations du Compte</h3>
+                <p><strong>Nom :</strong> Chambelle Véronique</p>
+                <p><strong>Numéro de Compte :</strong> 1067058123456</p>
+                <p><strong>IBAN :</strong> FR76 9657 5631 9084 8386 0596 534</p>
+                <p><strong>Code BIC :</strong> MONFRPP866</p>
+            </div>
+        </div>
+        
+        <!-- Recent Transactions -->
+        <div class="transactions">
+            <h2>Transactions Récentes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Montant</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody id="transactions-body">
+                    <!-- Les transactions seront ajoutées ici dynamiquement -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="navbar">
+        <a href="#" class="nav-item"> 
+            <i class="fas fa-wallet"></i> Solde
+        </a>
+        <a href="historique.html" class="nav-item"> 
+            <i class="fas fa-history"></i> Historique
+        </a>
+        <a href="virement.html" class="nav-item"> 
+            <i class="fas fa-exchange-alt"></i> Virement
+        </a>
+        <a href="rib.html" class="nav-item"> 
+            <i class="fas fa-file-invoice"></i> Rib
+        </a>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Votre Banque | Tous droits réservés.</p>
+    </div>
+
+    <script>
+
+        function elements(post) {
+            const tbody = document.getElementById("transactions-body");
+    const tr = document.createElement("tr");
+
+    // Création des colonnes
+    const tdDate = document.createElement("td");
+    tdDate.textContent = post.date;
+
+    const tdDescription = document.createElement("td");
+    tdDescription.textContent = post.libelle;
+
+    const tdMontant = document.createElement("td");
+    tdMontant.textContent = `- ${post.montant}`;
+    tdMontant.style.color = post.type === "Crédit" ? "green" : "red"; // Couleur selon type
+
+    const tdType = document.createElement("td");
+    tdType.textContent = post.type;
+
+    // Ajout des colonnes à la ligne
+    tr.appendChild(tdDate);
+    tr.appendChild(tdDescription);
+    tr.appendChild(tdMontant);
+    tr.appendChild(tdType);
+
+    // Ajout de la ligne au tableau
+    tbody.appendChild(tr);
+}
+
+       async function getVirement() {
+        const response = await fetch("/totalvirements",{
+            method: "GET",
+            headers:{
+                Accept:"application/json",
+                "Content-Type":"application/json"
+            },
+        });
+
+        const data = await response.json()
+        console.log(data);
+        const docs = data.table
+        for(let doc of docs){
+            console.log(doc);
+            elements(doc)
+            
+        }
+       }
+
+   
+
+
+   function Solde() {
+    const r = fetch("/montant").then((response =>{
+        return response.json()
+        
+    })).then((docs) =>{
+       
+        const SoldeFormat = docs.solde
+       
+        
+        const dataFormat =  new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(
+    SoldeFormat,
+  )
+  document.querySelector("#solde").innerHTML = dataFormat
+  
+        
+    })
+   }
+
+   document.addEventListener("DOMContentLoaded", ()=>{
+    Solde()
+    getVirement()
+   })
+
+   const horloge = new Date
+   const dataHorloge = horloge.toLocaleDateString()
+   document.getElementById("date").innerHTML = dataHorloge
+   
+    </script>
+
+</body>
+</html>

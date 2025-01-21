@@ -1,0 +1,254 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.header .logout {
+    background-color: #dc3545; /* Red color for logout button */
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.header .logout:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+.header .logout:active {
+    background-color: #bd2130; /* Even darker red on click */
+}
+
+.account-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Gap between blocks */
+    margin-bottom: 20px;
+}
+
+.account-info .balance,
+.account-info .details {
+    background-color: #e0f7fa; /* Light blue for balance block */
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    min-width: 300px; /* Ensures blocks are not too small */
+}
+
+.account-info .balance h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #00796b;
+}
+
+.account-info .details {
+    background-color: #f5f5f5;
+}
+
+.account-info .details h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.transactions {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.transactions h2 {
+    margin: 0 0 20px;
+    font-size: 20px;
+    color: #00796b;
+}
+
+.transactions table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transactions table th,
+.transactions table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.transactions table th {
+    background-color: #00796b;
+    color: #fff;
+}
+
+.transactions table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.footer {
+    text-align: center;
+    border-top: 2px solid #ddd;
+    padding: 20px 0;
+    margin-top: 40px;
+    background: #e0f7fa; /* Light blue background */
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .header .logout {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .account-info {
+        flex-direction: column;
+    }
+
+    .account-info .balance,
+    .account-info .details {
+        margin-bottom: 10px;
+    }
+
+    .transactions table th,
+    .transactions table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .header .logout {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .account-info .balance h2 {
+        font-size: 20px;
+    }
+
+    .account-info .details h3 {
+        font-size: 16px;
+    }
+
+    .transactions h2 {
+        font-size: 18px;
+    }
+}
+
+.content {
+    padding: 20px; /* Espacement autour du contenu */
+    padding-bottom: 80px; /* Ajout d'un padding pour éviter que le contenu soit caché sous la barre de navigation */
+}
+
+  .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            gap: 10px;
+            padding: 10px 20px;
+            z-index: 1000;
+            max-width: 90%;
+        }
+
+        .nav-item {
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease, background-color 0.3s ease;
+            flex: 1;
+            justify-content: center;
+            min-width: 80px;
+        }
+
+        .nav-item.active {
+            transform: translateY(-15px);
+            color: #007bff;
+            background-color: white;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            border: 1px solid #007bff;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                bottom: 15px;
+                padding: 5px;
+            }
+
+            .nav-item {
+                min-width: 60px;
+            }
+/* Animation for the clicked item */
+.nav-item.active {
+    transform: translateY(-5px); /* Décale un peu plus vers le haut */
+    color: #007bff;
+    background-color: white; /* Fond blanc lorsque l'élément est actif */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    padding: 12px 20px; /* Augmente le padding horizontalement */
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar {
+        bottom: 15px; /* Ajuster la position pour éviter la coupure */
+        padding: 5px;
+    }
+
+    .nav-item {
+        min-width: 30px; /* Largeur minimale pour les petits écrans */
+    }
+
+    .nav-item.active {
+        transform: translateY(-10px); /* Décalage plus important sur petits écrans */
+    }
+}

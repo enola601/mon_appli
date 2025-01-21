@@ -1,0 +1,151 @@
+body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: 100vh;
+           background: linear-gradient(to bottom, #99042f, #E07184); /* Dégradé vertical */
+            overflow: auto; /* Permet de défiler */
+        }
+
+        header {
+            background-color: #ffff; /* Couleur opaque pour l'en-tête */
+            color: white;
+            text-align: center;
+            padding: 10px; /* Réduit la taille de l'en-tête */
+            width: 100%;
+            position: fixed; /* Fixe l'en-tête en haut */
+            top: 0;
+            z-index: 1000; /* S'assure qu'il reste au-dessus des autres éléments */
+        }
+
+        header img {
+            max-width: 20%; /* S'adapte à la largeur de l'en-tête */
+            height: auto; /* Conserve le ratio de l'image */
+            display: block; /* Supprime l'espace en bas de l'image */
+            margin: 0 auto; /* Centre l'image */
+        }
+
+        footer {
+             background-color: #d1d1d1; /* Couleur opaque pour le pied de page */
+            color: white;
+            text-align: center;
+            padding: 20px 10px; 
+            width: 100%;
+            position: relative; 
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8); /* Fond transparent pour la connexion */
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
+            width: 90%; 
+            max-width: 400px; 
+            margin: 100px auto; /* Marge supérieure pour compenser l'en-tête fixe */
+            margin-top: 150px; /* Plus d'espace entre l'en-tête et la connexion */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px; 
+        }
+
+        .form-group {
+            margin-bottom: 20px; 
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px; 
+            font-weight: bold; 
+        }
+
+        input {
+            width: calc(100% - 30px);
+            padding: 15px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            font-size: 16px; 
+            margin: 0 auto; 
+            display: block; 
+            background-color: rgba(255, 255, 255, 0.8); /* Transparent pour les champs de saisie */
+        }
+
+        input:focus {
+            border: none; 
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color:#99042f; /* Transparent pour le bouton */
+            color: white;
+            border: none;
+            border-radius: 5px; 
+            cursor: pointer;
+            font-size: 16px; 
+            transition: background-color 0.3s; 
+        }
+
+        button:hover {
+           background-color:#E07184; /* Opacité complète au survol */
+        }
+
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .key {
+            background-color: #ffffff; /* Couleur blanche pour les clés */
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px; 
+            cursor: pointer;
+            transition: background-color 0.3s; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre pour les clés */
+        }
+
+        .key:hover {
+            background-color: #d1d1d1; /* Couleur au survol */
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .links a {
+            display: block;
+            margin: 5px 0;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles responsives */
+        @media (max-width: 600px) {
+            header, footer {
+                padding: 15px 5px; 
+            }
+
+            h1 {
+                font-size: 20px; 
+            }
+
+            .container {
+                padding: 20px; 
+            }
+
+            button, .key {
+                padding: 10px; 
+            }
+        }

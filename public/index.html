@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Ma Banque</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/conn.css">
+    <style>
+    .para{
+    width: 78%;
+    text-align: center;
+    margin: auto;
+    margin-top: 27px;
+    color: #c8c8c8;
+    font-size: 13px;
+    font-family: "Open Sans";
+    }
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .key {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .key:hover {
+            background-color: #e0e0e0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: 100vh;
+           background: hsl(68, 95%, 35%);    /* Dégradé vertical */
+            overflow: auto; /* Permet de défiler */
+        }
+
+        header {
+            background-color: #ffff; /* Couleur opaque pour l'en-tête */
+            color: white;
+            text-align: center;
+            padding: 0.1vh; /* Réduit la taille de l'en-tête */
+            width: 100%;
+            position: fixed; /* Fixe l'en-tête en haut */
+            top: 0;
+            z-index: 1000; /* S'assure qu'il reste au-dessus des autres éléments */
+        }
+
+        header img {
+            max-width: 10%; /* S'adapte à la largeur de l'en-tête */
+            height: auto; /* Conserve le ratio de l'image */
+            display: block; /* Supprime l'espace en bas de l'image */
+            margin: 0 auto; /* Centre l'image */
+        }
+
+       *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+.container-footer{
+    max-width: 100%;
+    margin: 0 auto;
+}
+.footer{
+    background-color: #24262B;
+    padding: 80px 0;
+}
+.footer-row{
+    display: flex;
+    flex-wrap: wrap;
+}
+.footer-links{
+    width: 25%;
+    padding: 0 15px;
+}
+.footer-links h4{
+    font-size: 20px;
+    color: #FFFFFF;
+    margin-bottom: 25px;
+    font-weight: 500;
+    border-bottom: 2px solid #00c3ff;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+.footer-links ul li a {
+    font-size: 18px;
+    text-decoration: none;
+    color: #bbbbbb;
+    display: block;
+    margin-bottom: 15px;
+    transform: all .3s ease;
+}
+.footer-links ul li a:hover{
+    color: #FFFFFF;
+    padding-left: 6px;
+}
+.social-links a {
+    display: inline-block;
+    min-height: 40px;
+    width: 40px;
+    background-color: rgb(255, 255, 255, 0.2);
+    margin: 0 10px 10px 0;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #FFFFFF;
+    transition: all .5s ease;
+
+}
+.social-links a:hover{
+    background-color: #00c3ff;
+}
+@media(max-width:600px) {
+    .footer-row{
+        text-align: center
+    }
+    .footer-links{
+        width: 100%;
+        margin-bottom: 30px;
+    }
+}
+
+        .container {
+            background-color: white; /* Fond transparent pour la connexion */
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
+            width: 90%; 
+            max-width: 400px; 
+            margin: 100px auto; /* Marge supérieure pour compenser l'en-tête fixe */
+            margin-top: 150px; /* Plus d'espace entre l'en-tête et la connexion */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px; 
+        }
+
+        .form-group {
+            margin-bottom: 20px; 
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px; 
+            font-weight: bold; 
+        }
+
+        input {
+            width: calc(100% - 30px);
+            padding: 15px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            font-size: 16px; 
+            margin: 0 auto; 
+            display: block; 
+            background-color: rgba(255, 255, 255, 0.8); /* Transparent pour les champs de saisie */
+        }
+
+        input:focus {
+            border: none; 
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color:#bad606;
+ /* Transparent pour le bouton */
+            color: white;
+            border: none;
+            border-radius: 5px; 
+            cursor: pointer;
+            font-size: 16px; 
+            transition: background-color 0.3s; 
+        }
+
+        button:hover {
+           background-color:#dcf0ca; /* Opacité complète au survol */
+        }
+
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .key {
+            background-color: #ffffff; /* Couleur blanche pour les clés */
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px; 
+            cursor: pointer;
+            transition: background-color 0.3s; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre pour les clés */
+        }
+
+        .key:hover {
+            background-color: #d1d1d1; /* Couleur au survol */
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .links a {
+            display: block;
+            margin: 5px 0;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles responsives */
+        @media (max-width: 600px) {
+            header{
+                padding: 15px 5px; 
+            }
+
+            h1 {
+                font-size: 20px; 
+            }
+
+            .container {
+                padding: 20px; 
+            }
+
+            button, .key {
+                padding: 10px; 
+            }
+
+            header img {
+            max-width: 30%; /* S'adapte à la largeur de l'en-tête */
+            height: auto; /* Conserve le ratio de l'image */
+            display: block; /* Supprime l'espace en bas de l'image */
+            margin: 0 auto; /* Centre l'image */
+        }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="img/monabanq.png" alt="Logo">
+    </header>
+
+    <div class="container">
+        <h1>ACCÉDER À MES COMPTES</h1>
+        <form id="loginForm" action="your-auth-endpoint" method="POST">
+            <div class="form-group">
+                <label for="username">1. Mon numéro client</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">2. Mon code secret (6 chiffres)</label>
+                <input type="password" id="password" name="password" required readonly>
+            </div>
+            <button type="submit">Connexion</button>
+        </form>
+        <div id="keyboard" class="keyboard">
+            <div class="key" onclick="appendToInput('0')">0</div>
+            <div class="key" onclick="appendToInput('1')">1</div>
+            <div class="key" onclick="appendToInput('9')">9</div>
+            <div class="key" onclick="appendToInput('3')">3</div>
+            <div class="key" onclick="appendToInput('5')">5</div>
+            <div class="key" onclick="appendToInput('4')">4</div>
+            <div class="key" onclick="appendToInput('7')">7</div>
+            <div class="key" onclick="appendToInput('8')">8</div>
+            <div class="key" onclick="appendToInput('2')">2</div>
+            <div class="key" onclick="appendToInput('6')">6</div>
+        </div>
+        <div class="links">
+            <a href="#">Numéro client ou code secret oublié ?</a>
+        </div>
+    </div>
+
+   <footer class="footer">
+        <div class="container-footer">
+            <div class="footer-row">
+                <div class="footer-links">
+                    <h4>INFORMATIONS LÉGALES</h4>
+                    <ul>
+                        <li><a href="#">Données personnelles</a></li>
+                        <li><a href="#">Mentions légales</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Réglementation</a></li>
+                        <li><a href="#">Fonds de Garantie des Dépôts et résolution</a></li>
+                        <li><a href="#">Paramètres des cookies</a></li>
+                    </ul>
+                </div>
+                 <div class="footer-links">
+                    <h4>NOUS CONNAÎTRE</h4>
+                    <ul>
+                        <li><a href="#">La banque d’un monde qui change</a></li>
+                        <li><a href="#">Nos engagements responsables</a></li>
+                        <li><a href="#">Emploi & Carrière</a></li>
+                     
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>INFORMATIONS</h4>
+                    <ul>
+                        <li><a href="#">Accessibilité : non conforme</a></li>
+                        <li><a href="#">Site Sécurisé</a></li>
+                        <li><a href="#">Conditions d’éligibilité</a></li>
+                        <li><a href="#">Tarifs et conditions</a></li>
+                    </ul>
+                </div>
+                 <div class="footer-links">
+                    <h4>Suivez-nous sur :</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-x"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="para">Pour la bonne exécution de vos contrats, et en cas de réclamations/contestations, votre Conseiller est joignable sur sa ligne directe (appel non surtaxé). Si vous ne disposez plus de son numéro de téléphone direct, envoyez-lui un message par votre messagerie sécurisée, il vous le donnera à nouveau en retour.
+
+Pour partager votre écran avec un conseiller, cliquez ici.</p>
+    </footer>
+
+    <script>
+        function appendToInput(value) {
+            const passwordInput = document.getElementById('password');
+            if (passwordInput.value.length < 6) {
+                passwordInput.value += value; // Ajoute la valeur du bouton cliqué
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêche l'envoi du formulaire par défaut
+
+            // Récupère les valeurs des champs de saisie
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Modifiez les informations d'identification ici
+            const validUsername = '123'; // Remplacez par le nom d'utilisateur souhaité
+            const validPassword = '123'; // Remplacez par le mot de passe souhaité
+
+            // Vérifiez les informations d'identification
+            if (username === validUsername && password === validPassword) {
+                localStorage.setItem('loggedIn', 'true'); // Stocke l'état de connexion
+                window.location.href = 'solde.html'; // Redirige vers la page d'accueil
+            } else {
+                // Affiche un message d'erreur
+                alert('Numéro client ou code secret incorrect.');
+                document.getElementById('password').value = ''; // Efface le champ de code secret
+            }
+        });
+    </script>
+</body>
+</html>
