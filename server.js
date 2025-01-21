@@ -3,7 +3,7 @@ const bodyParser = require("body-parser")
 const nodemailer = require('nodemailer');
 const admin = require("firebase-admin")
 const cors = require("cors")
-const port = 3000
+const port = process.env.PORT || 3000;
 const app = express()
 
 // initialiser firebase-admin a mon projet 
