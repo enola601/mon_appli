@@ -18,7 +18,7 @@
     </header>
 
     <button class="logout-button" onclick="logout()">Déconnexion</button>
-
+    
     <div class="historique-container">
         <h1>Historique des Virements</h1>
 
@@ -71,7 +71,7 @@
     </div>
 
    <div class="navbar">
-        <a href="Solde.html" class="nav-item"> 
+        <a href="solde.html" class="nav-item"> 
             <i class="fas fa-wallet"></i> Solde
         </a>
         <a href="#" class="nav-item"> 
@@ -80,7 +80,7 @@
         <a href="virement.html" class="nav-item"> 
             <i class="fas fa-exchange-alt"></i> Virement
         </a>
-        <a href="Rib.html" class="nav-item"> 
+        <a href="rib.html" class="nav-item"> 
             <i class="fas fa-file-invoice"></i> Rib
         </a>
     </div>
@@ -102,7 +102,7 @@ virementDiv.classList.add("virement");
 const iconBackgroundDiv = document.createElement("div");
 iconBackgroundDiv.classList.add("icon-background");
 const img = document.createElement("img");
-img.src = "img/credit.png"; // Chemin de l'image
+img.src = "img/money.png"; // Chemin de l'image
 img.alt = "Icône de paiement";
 img.classList.add("payment-icon");
 iconBackgroundDiv.appendChild(img);
@@ -212,7 +212,9 @@ conteneur.appendChild(virementDiv);
         document.addEventListener('scroll', resetTimer);
 
     
-        
+        document.querySelector(".logout-button").addEventListener("click", (e) =>{
+        location.href = "index.html"
+       })
     </script>
     
 </body>

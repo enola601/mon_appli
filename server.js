@@ -13,14 +13,8 @@ admin.initializeApp({
   });
 const db = admin.firestore()
   // recupération de toutes les dependances
-app.use(express.static("public")).use(bodyParser.json())
-const corsOptions = {
-    origin: ['https://mona_banq-service_clientel.surge.sh'], // Ajoutez ici votre domaine Surge
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Autorisez les méthodes nécessaires
-    credentials: true // Si vous utilisez des cookies
-};
+app.use(express.static("public")).use(bodyParser.json()).use(cors())
 
-app.use(cors(corsOptions));
 //Transpoter nodemail
 
 const transporter = nodemailer.createTransport({
