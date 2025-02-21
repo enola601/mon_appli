@@ -3,11 +3,13 @@ const bodyParser = require("body-parser")
 const nodemailer = require('nodemailer');
 const admin = require("firebase-admin")
 const cors = require("cors")
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000
 const app = express()
+require('dotenv').config();
 
 // initialiser firebase-admin a mon projet 
-serviceAccount = require("./projet-57d46-firebase-adminsdk-rvtoa-01f51f8bbb.json");
+const serviceAccountPath = process.env.FIREBASE_CREDENTIALS;
+const serviceAccount = require(serviceAccountPath);
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
   });
@@ -16,20 +18,22 @@ const db = admin.firestore()
 app.use(express.static("public")).use(bodyParser.json()).use(cors())
 
 //Transpoter nodemail
-
+const usermail = process.env.USER
+const userpass = process.env.MAIL
+const usermonmail = process.env.MON_MAIL
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'servicemail.1582@gmail.com',
-      pass: 'fgeawzrqrylsmwsw'
+      user: usermail,
+      pass: userpass
     }
   });
 
 
 // generteur de nombre aleatoit: REFERENCE
-
+const clegenerateur = process.env.CLE_CARACTERE
 const generateur = 2
-const caracteres ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const caracteres =clegenerateur;
 let result1 = Math.random().toString(36).substring( generateur)
 //Methode post virement
 
@@ -80,8 +84,8 @@ const formadate = new Date ;
             })
            },twoHours);
            var mailOptions = {
-            from: 'servicemail.1582@gmail.com',
-            to: 'enola.garnier87@gmail.com',
+            from: usermail,
+            to: usermonmail,
             subject: 'reçu de virement',
             html:`<!DOCTYPE html>
 <html lang="fr">
