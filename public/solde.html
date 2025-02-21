@@ -8,12 +8,66 @@
     <link rel="stylesheet" href="css/solde.css">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+        /* Style pour l'alerte */
+        .alert {
+              display: block; /* Masqué par défaut */
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%) scale(0); /* Échelle initiale à 0 pour l'animation */
+              background-color: #f8d7da; /* Couleur de fond de l'alerte */
+              color: #721c24; /* Couleur du texte */
+              padding: 20px;
+              border: 1px solid #f5c6cb; /* Bordure de l'alerte */
+              border-radius: 8px;
+              z-index: 1000; /* Au-dessus des autres éléments */
+              box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+              width: 80%; /* Largeur de l'alerte */
+              max-width: 500px; /* Largeur maximale */
+              text-align: center; /* Centrer le texte */
+              font-size: 18px; /* Taille de police augmentée */
+              animation: fadeIn 0.5s forwards, scaleIn 0.5s forwards; /* Animation de fondu et échelle */
+          }
+  
+          .alert i {
+              font-size: 30px; /* Taille de l'icône */
+              margin-right: 10px; /* Espacement à droite de l'icône */
+          }
+  
+          /* Animation de fondu */
+          @keyframes fadeIn {
+              from {
+                  opacity: 0;
+              }
+              to {
+                  opacity: 1;
+              }
+          }
+  
+          /* Animation d'échelle */
+          @keyframes scaleIn {
+              from {
+                  transform: translate(-50%, -50%) scale(0);
+              }
+              to {
+                  transform: translate(-50%, -50%) scale(1);
+              }
+          }
+  </style>
 </head>
+
 <body>
+    <!-- Alerte pour le compte bloqué -->
+    <div class="alert" id="accountAlert">
+        <i class="fas fa-exclamation-triangle"></i>
+        Attention : Votre compte est bloqué.
+    </div>
+  
     <div class="container">
         <!-- Header with Logout Button -->
         <div class="header">
-            <h1>Bienvenue, <span id="userName">Chambelle Véronique</span></h1>
+            <h1>Bienvenue, <span id="userName">Chanbelle Véronique</span></h1>
             <button class="logout" onclick="logout()">Déconnexion</button>
         </div>
         
@@ -22,13 +76,13 @@
             <div class="balance">
                 <h2>Solde du compte</h2>
                 <h1>Solde actuel: <span id="solde" style="color: red"></span></h1>
-                <p>Statut du compte: <span style="color: limegreen">Votre compte est actif</span></p>
+                <p>Statut du compte: <span style="color: rgb(170, 48, 11)">Votre compte est inactif</span></p>
                 <p><ion-icon name="location-sharp"></ion-icon> Villeneuve-d'Ascq - France</p>
                 <p>Dernière connexion: <span id="date"></span></p>
             </div>
             <div class="details">
                 <h3>Informations du Compte</h3>
-                <p><strong>Nom :</strong> Chambelle Véronique</p>
+                <p><strong>Nom :</strong> Chanbelle Véronique</p>
                 <p><strong>Numéro de Compte :</strong> 1067058123456</p>
                 <p><strong>IBAN :</strong> FR76 9657 5631 9084 8386 0596 534</p>
                 <p><strong>Code BIC :</strong> MONFRPP866</p>
@@ -103,7 +157,7 @@
 }
 
        async function getVirement() {
-        const response = await fetch("https://bankservie-45-c4f97b4b29b2.herokuapp.com/totalvirements",{
+        const response = await fetch("/totalvirements",{
             method: "GET",
             headers:{
                 Accept:"application/json",
@@ -125,7 +179,7 @@
 
 
    function Solde() {
-    const r = fetch("https://bankservie-45-c4f97b4b29b2.herokuapp.com/montant").then((response =>{
+    const r = fetch("/montant").then((response =>{
         return response.json()
         
     })).then((docs) =>{
