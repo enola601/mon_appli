@@ -1,223 +1,158 @@
-const express = require("express")
-const bodyParser = require("body-parser")
-const nodemailer = require('nodemailer');
-const admin = require("firebase-admin")
-const cors = require("cors")
-const port = process.env.PORT || 3000
-const app = express()
-require('dotenv').config();
+const express = require("express");
+const bodyParser = require("body-parser");
+const nodemailer = require("nodemailer");
+const admin = require("firebase-admin");
+const cors = require("cors");
+const fs = require("fs");
+const crypto = require("crypto");
+require("dotenv").config();
 
-// initialiser firebase-admin a mon projet 
+const port = process.env.PORT || 3000;
+const app = express();
+
+// 🔒 Vérification des variables d'environnement
+if (!process.env.FIREBASE_CREDENTIALS || !process.env.USER || !process.env.PASS || !process.env.MON_MAIL) {
+    throw new Error("⚠️ Erreur : Une ou plusieurs variables d'environnement ne sont pas définies !");
+}
+
+// 🔥 Chargement sécurisé de Firebase
 const serviceAccountPath = process.env.FIREBASE_CREDENTIALS;
-const serviceAccount = require(serviceAccountPath);
+const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
+
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-  });
-const db = admin.firestore()
-  // recupération de toutes les dependances
-app.use(express.static("public")).use(bodyParser.json()).use(cors())
+    credential: admin.credential.cert(serviceAccount),
+});
+const db = admin.firestore();
 
-//Transpoter nodemail
-const usermail = process.env.USER
-const userpass = process.env.MAIL
-const usermonmail = process.env.MON_MAIL
+// Middleware
+app.use(express.static("public")).use(bodyParser.json()).use(cors());
+
+// 📩 Configuration de Nodemailer (Transporter Gmail sécurisé)
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
-      user: usermail,
-      pass: userpass
+        user: process.env.USER,
+        pass: process.env.PASS,
+    },
+});
+
+// 🔑 Génération d'un identifiant aléatoire sécurisé
+const generateReference = () => crypto.randomBytes(8).toString("hex");
+
+// 🔥 Route pour effectuer un virement
+app.post("/virement", async (req, res) => {
+    const { nom, prenom, iban, swift, code_banque, montant, libelle } = req.body;
+
+    if (!nom || !prenom || !iban || !swift || !code_banque || !montant || !libelle) {
+        return res.status(400).json({ message: "Veuillez remplir tous les champs." });
     }
-  });
 
+    const soldeRef = db.collection("solde").doc("montant");
+    const soldeSnap = await soldeRef.get();
 
-// generteur de nombre aleatoit: REFERENCE
-const clegenerateur = process.env.CLE_CARACTERE
-const generateur = 2
-const caracteres =clegenerateur;
-let result1 = Math.random().toString(36).substring( generateur)
-//Methode post virement
-
-app.post("/virement", async (req , res) =>{
-    const {nom , prenom ,iban , swift, code_banque, montant, libelle} =  req.body
-
-    if (!nom|| !prenom ||!iban|| !swift|| !code_banque|| !montant|| !libelle ) {
-        res.status(401).json({message:"Veuillez remplir les champs"})
+    if (!soldeSnap.exists) {
+        return res.status(400).json({ message: "Solde introuvable." });
     }
-const solde = db.collection("solde").doc("montant")
 
-const soldeSnap = await solde.get()
+    const soldeActuel = soldeSnap.data().montant;
+    if (soldeActuel < montant) {
+        return res.status(400).json({ message: "Solde insuffisant !" });
+    }
 
-if (!soldeSnap.exists) {
-    throw new Error("Solde existe pas");
-    
-}
+    const nouveauSolde = soldeActuel - montant;
+    await soldeRef.update({ montant: nouveauSolde });
 
-const soldeActuelle = await soldeSnap.data().montant
-if (soldeActuelle<montant) {
-  return res.status(400).json({message:"Solde insuffisant!"})
-}
-const nouveauSolde = soldeActuelle - montant
+    const dateTransaction = new Date().toLocaleDateString();
+    const reference = generateReference();
 
-solde.update({montant:nouveauSolde})
-const formadate = new Date ;
-    
     try {
-        const users = await db.collection("users").add(
-           {
-            nom , 
-            prenom, 
+        const userRef = await db.collection("users").add({
+            nom,
+            prenom,
             iban,
             swift,
             code_banque,
             montant,
             libelle,
-            date: formadate.toLocaleDateString(),
+            date: dateTransaction,
             statut: "En attente",
-            type:"Débit"
-           },
-        )
-        const twoHours = 2 * 24 * 60 * 60 * 1000;
-        setTimeout(async() => {
-          await users.update({
-               statut:"Refusé"
-               
-            })
-           },twoHours);
-           var mailOptions = {
-            from: usermail,
-            to: usermonmail,
-            subject: 'reçu de virement',
-            html:`<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmation de Virement</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        .email-container {
-            max-width: 600px;
-            margin: 20px auto;
-            background: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .email-header {
-            background:hsl(68, 95%, 43%);
-            padding: 20px;
-            text-align: center;
-        }
-        .email-header img {
-            max-width: 150px;
-        }
-        .email-body {
-            padding: 20px;
-            line-height: 1.6;
-        }
-        .email-body h1 {
-            font-size: 24px;
-            color:hsl(68, 95%, 43%);
-        }
-        .email-body p {
-            margin: 10px 0;
-        }
-        .email-footer {
-            background: #f5f5f5;
-            padding: 15px;
-            text-align: center;
-            font-size: 14px;
-            color: #777;
-        }
-    </style>
-</head>
-<body>
-    <div class="email-container">
-        <div class="email-header">
-            <img src="https://pic.clubic.com/v1/images/1819767/raw" alt="Logo de la banque">
-        </div>
-        <div class="email-body">
-            <h1>Confirmation de votre virement bancaire</h1>
-            <p>Bonjour <strong>Veronique</strong>,</p>
-            <p>Nous vous confirmons que votre virement a bien été effectué depuis votre compte bancaire. Voici les détails de l’opération :</p>
-            <ul>
-                <li><strong>Montant :</strong> - ${montant} €</li>
-                <li><strong>Date et heure :</strong> ${ formadate.toLocaleDateString()} </li>
-                <li><strong>Destinataire :</strong> ${prenom} ${nom} </li>
-                <li><strong>Référence du virement : </strong> ${result1} </li>
-            </ul>
-            <p>Votre virement sera tr   aité conformément aux délais bancaires habituels. Si vous avez des questions ou des préoccupations concernant cette opération, n’hésitez pas à nous contacter.</p>
-            <p>Nous vous remercions de votre confiance et restons à votre disposition pour tout renseignement complémentaire.</p>
-        </div>
-        <div class="email-footer">
-            <p>Cordialement,</p>
-            <p><strong>monabanq</strong><br>Service Client<br>servicemonabanq@service.fr</p>
-        </div>
-    </div>
-</body>
-</html>`
-          };
+            type: "Débit",
+        });
 
-          transporter.sendMail(mailOptions, function(error, info){
+        // 📩 Envoi de l'email de confirmation
+        const mailOptions = {
+            from: process.env.USER,
+            to: process.env.MON_MAIL,
+            subject: "Reçu de virement",
+            html: `
+                <html>
+                <body>
+                    <h1>Confirmation de votre virement bancaire</h1>
+                    <p>Bonjour <strong>${prenom} ${nom}</strong>,</p>
+                    <p>Nous confirmons que votre virement a bien été enregistré.</p>
+                    <ul>
+                        <li><strong>Montant :</strong> ${montant} €</li>
+                        <li><strong>Date :</strong> ${dateTransaction}</li>
+                        <li><strong>Référence du virement :</strong> ${reference}</li>
+                    </ul>
+                    <p>Merci pour votre confiance.</p>
+                </body>
+                </html>
+            `,
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-              console.log(error);
-            } else {
-              console.log('Email sent: ' + info.response);
+                console.error("Erreur d'envoi d'email :", error);
+                return res.status(500).json({ success: false, message: "Erreur d'envoi de l'email." });
             }
-          });
-        res.status(201).json({success: true ,message:"Virement effectué avec succès"})
-       
+            console.log("Email envoyé :", info.response);
+            res.status(201).json({ success: true, message: "Virement effectué avec succès !" });
+        });
+
     } catch (error) {
-        res.status(400).json({success: false, error:error.message})
+        res.status(500).json({ success: false, message: error.message });
     }
-})
-// récupération du Solde
-app.get("/montant", async (req , res) =>{
+});
 
-   const userSolde = db.collection("solde").doc("montant")
-   const snapProfil = await userSolde.get()
-   if (!snapProfil.exists) {
-    throw new Error("Impossible de recupéré la somme demander");
-    
-   }
-   try {
-    const somme = await snapProfil.data().montant
-    res.status(200).json({message:"La somme a été bien récupéré", solde: somme})
-   
-    
-   } catch (error) {
-    res.status(500).json({message:error})
-   }
-    
-})
+// 🔥 Route pour récupérer le solde
+app.get("/montant", async (req, res) => {
+    const soldeRef = db.collection("solde").doc("montant");
+    const soldeSnap = await soldeRef.get();
 
-//Récuppéréation de toutes les transactions
-app.get("/totalvirements", async (req , res) =>{
-
-    const usersVirement = db.collection("users")
-    const snapVirement = await usersVirement.get()
-    if (snapVirement.empty) {
-      return res.status(400).json({message:"liste vide"})
+    if (!soldeSnap.exists) {
+        return res.status(400).json({ message: "Impossible de récupérer le solde." });
     }
+
     try {
-        const table = []
-        snapVirement.forEach((doc) =>{
-            table.push({id:doc.id,...doc.data()})
-        })
-        res.status(201).json({message:"tout les elements on été bien récupéré", table})
+        const solde = soldeSnap.data().montant;
+        res.status(200).json({ message: "Solde récupéré avec succès", solde });
     } catch (error) {
-        res.status(500).json({message:error})
+        res.status(500).json({ message: error.message });
     }
-})
-// lancement du server
-app.listen(port, () =>{
-    console.log(`le server ecoutant sur le port ${port}`)
-    
-})
+});
+
+// 🔥 Route pour récupérer toutes les transactions
+app.get("/totalvirements", async (req, res) => {
+    const usersRef = db.collection("users");
+    const snapVirement = await usersRef.get();
+
+    if (snapVirement.empty) {
+        return res.status(400).json({ message: "Aucune transaction trouvée." });
+    }
+
+    try {
+        const transactions = [];
+        snapVirement.forEach((doc) => {
+            transactions.push({ id: doc.id, ...doc.data() });
+        });
+        res.status(200).json({ message: "Transactions récupérées avec succès", transactions });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// 🚀 Démarrage du serveur
+app.listen(port, () => {
+    console.log(`✅ Serveur démarré sur le port ${port}`);
+});
