@@ -16,11 +16,11 @@ if (!process.env.FIREBASE_CREDENTIALS || !process.env.USER || !process.env.PASS 
 }
 
 // 🔥 Chargement sécurisé de Firebase
-const serviceAccountPath = process.env.FIREBASE_CREDENTIALS;
-const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
 
+const serviceAccountPath = process.env.FIREBASE_CREDENTIALS;
+const serviceAccount = require(serviceAccountPath);
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(serviceAccount)
 });
 const db = admin.firestore();
 
